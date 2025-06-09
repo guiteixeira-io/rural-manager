@@ -39,3 +39,20 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Arquivos do Prisma
+/prisma/dev.db
+/prisma/*.db
+/prisma/*.sqlite
+
+# Arquivos de log extras
+*.log
+
+# Arquivos de cache do VSCode
+.vscode/*
+!.vscode/settings.json
+
+# Arquivos de cache do sistema operacional
+Thumbs.db
+ehthumbs.db
+Icon?
