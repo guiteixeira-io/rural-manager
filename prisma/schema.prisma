@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" // ou "mysql", "sqlite", etc.
+  url      = env("DATABASE_URL")
+}
+
+model Produtor {
+  id         Int          @id @default(autoincrement())
+  cpfCnpj    String       @unique
+  nome       String
+  propriedades Propriedade[]
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+}
+
+model Propriedade {
+  id                Int         @id @default(autoincrement())
+  nome              String
+  cidade            String
+  estado            String
+  areaTotalHa       Float
+  areaAgricultavelHa Float
+  areaVegetacaoHa   Float
+  produtorId        Int
+  produtor          Produtor    @relation(fields: [produtorId], references: [id])
+  safras            Safra[]
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+}
+
+model Safra {
+  id             Int         @id @default(autoincrement())
+  nome           String      // Ex: "Safra 2021"
+  propriedadeId  Int
+  propriedade    Propriedade @relation(fields: [propriedadeId], references: [id])
+  culturas       Cultura[]
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
+model Cultura {
+  id        Int      @id @default(autoincrement())
+  nome      String   // Ex: "Soja", "Milho", etc.
+  safraId   Int
+  safra     Safra    @relation(fields: [safraId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
